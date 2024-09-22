@@ -17,6 +17,8 @@
 
 string choice = "";
 string input = "";
+
+List<string> gameHistory = new List<string>();
 do
 {
 
@@ -36,17 +38,17 @@ do
             PlayGame();
             break;
         case "2":
-            //CheckHistory();
             Console.Clear();
+            Console.WriteLine();
+            CheckHistory();
             break;
         case "3":
             Console.WriteLine("Quitting application...");
             Console.ReadLine();
             break;
         default:
-            Console.WriteLine("Invalid input. Please try again.");
-            Console.ReadLine();
             Console.Clear();
+            Console.WriteLine("Invalid input. Please try again.");
             break;
     }
 } while (choice != "3");
@@ -80,12 +82,12 @@ void PlayGame()
                 MathGame(operation);
                 break;
             case "q":
-                Console.WriteLine("Returnng to main menu...");
                 Console.Clear();
+                Console.WriteLine("Returnng to main menu...\n");
                 break;
             default:
-                Console.WriteLine("Invalid input. Please try again.");
                 Console.Clear();
+                Console.WriteLine("Invalid input. Please try again.\n");
                 break;
         }
     } while (operation != "q");
@@ -93,9 +95,12 @@ void PlayGame()
 
 void MathGame(string operation)
 {
-    int num1, num2;
-    int correctAnswer;
-    int inputtedAnswer;
+    int num1 = 0;
+    int num2 = 0;
+    int correctAnswer = 0;
+    int inputtedAnswer = 0;
+    bool isNumber = false;
+    bool isCorrect = false;
     Random random = new Random();
 
     Console.WriteLine("Enter the correct answer.");
@@ -110,15 +115,21 @@ void MathGame(string operation)
             input = Console.ReadLine();
             if (input != null)
             {
-                int.TryParse(input, out inputtedAnswer);
+                isNumber = int.TryParse(input, out inputtedAnswer);
                 if (inputtedAnswer == correctAnswer)
                 {
                     Console.WriteLine("That's correct!");
+                    isCorrect = true;
                 }
                 else
                 {
                     Console.WriteLine("That's incorrect. Please try again.");
                 }
+                if (isNumber)
+                {
+                    AddGameToHistory(num1, num2, operation, inputtedAnswer, isCorrect);
+                }
+                
             }
             break;
         case "-":
@@ -129,14 +140,19 @@ void MathGame(string operation)
             input = Console.ReadLine();
             if (input != null)
             {
-                int.TryParse(input, out inputtedAnswer);
+                isNumber = int.TryParse(input, out inputtedAnswer);
                 if (inputtedAnswer == correctAnswer)
                 {
                     Console.WriteLine("That's correct!");
+                    isCorrect = true;
                 }
                 else
                 {
                     Console.WriteLine("That's incorrect. Please try again.");
+                }
+                if (isNumber)
+                {
+                    AddGameToHistory(num1, num2, operation, inputtedAnswer, isCorrect);
                 }
             }
             break;
@@ -148,14 +164,19 @@ void MathGame(string operation)
             input = Console.ReadLine();
             if (input != null)
             {
-                int.TryParse(input, out inputtedAnswer);
+                isNumber = int.TryParse(input, out inputtedAnswer);
                 if (inputtedAnswer == correctAnswer)
                 {
                     Console.WriteLine("That's correct!");
+                    isCorrect = true;
                 }
                 else
                 {
                     Console.WriteLine("That's incorrect. Please try again.");
+                }
+                if (isNumber)
+                {
+                    AddGameToHistory(num1, num2, operation, inputtedAnswer, isCorrect);
                 }
             }
             break;
@@ -170,16 +191,44 @@ void MathGame(string operation)
             input = Console.ReadLine();
             if (input != null)
             {
-                int.TryParse(input, out inputtedAnswer);
+                isNumber = int.TryParse(input, out inputtedAnswer);
                 if (inputtedAnswer == correctAnswer)
                 {
                     Console.WriteLine("That's correct!");
+                    isCorrect = true;
                 }
                 else
                 {
                     Console.WriteLine("That's incorrect. Please try again.");
                 }
+                if (isNumber)
+                {
+                    AddGameToHistory(num1, num2, operation, inputtedAnswer, isCorrect);
+                }
             }
             break;
     }
+}
+
+void CheckHistory()
+{
+    foreach (string game in gameHistory)
+    {
+        Console.WriteLine(game);
+    }
+}
+
+void AddGameToHistory(int num1, int num2, string operation, int answer, bool isCorrect)
+{
+    string checkMark = "\u2713";
+    string crossMark = "X";
+    if (isCorrect)
+    {
+        gameHistory.Add($"{num1} {operation} {num2} = {answer} {checkMark}");
+    }
+    else
+    {
+        gameHistory.Add($"{num1} {operation} {num2} = {answer} {crossMark}");
+    }
+    
 }
