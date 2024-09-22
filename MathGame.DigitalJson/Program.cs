@@ -39,8 +39,8 @@ do
             break;
         case "2":
             Console.Clear();
-            Console.WriteLine();
             CheckHistory();
+            Console.WriteLine();
             break;
         case "3":
             Console.WriteLine("Quitting application...");
